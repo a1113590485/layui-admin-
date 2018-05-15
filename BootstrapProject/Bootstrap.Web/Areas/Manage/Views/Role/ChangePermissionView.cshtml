@@ -1,0 +1,94 @@
+﻿
+@{
+    Layout = "~/Areas/Manage/Views/Shared/_PartialViewLayout.cshtml";
+}
+
+<style type="text/css">
+    .xtree_contianer {
+        width: 500px;
+        overflow: auto;
+        margin-bottom: 30px;
+        background-color: #fff;
+        padding: 10px 0 25px 5px;
+    }
+</style>
+
+
+
+<div class="x-body layui-anim" id="MenuFormDiv">
+    <form class="layui-form" style="padding:20px" id="RoleForm">
+        <input hidden="hidden" id="RoleId" value="@Model"/>
+        <div id="xtree1" style="width:800px" class="xtree_contianer"></div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+            </label>
+            <button class="layui-btn" lay-filter="save" id="saveBtn" onclick="return false">
+                保存
+            </button>
+        </div>
+</form>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        var treeData = [];
+        layui.use(['form'], function () {
+            var form = layui.form;
+            
+            $.ajax({
+                url: "/Permission/GetPermissionListByRole?roleId=" + $("#RoleId").val(),
+                type: "post",
+                dataType: "json",
+                error: function () {
+
+                },
+                success: function (result) {
+                    //构建树
+                    for (var i = 0; i < result.length; i++) {
+                        var obj = {
+                            title: "",
+                            value: "",
+                            checked: false,
+                            data: []
+                        }
+                        obj.title = result[i].ControllerDesction + "----<b>" + result[i].ControllerName+"</b>";
+                        obj.value = result[i].ControllerName;
+                        obj.checked = result[i].IsCheck ? true : false;
+                        for (var j = 0; j < result[i].ActionList.length; j++) {
+                            obj.data.push({
+                                title: result[i].ActionList[j].ActionName + "----<b>" + result[i].ActionList[j].ActionLink + "</b>",
+                                value: result[i].ActionList[j].ActionLink,
+                                checked: result[i].ActionList[j].IsCheck ? true : false,
+                                data: []
+                            });
+                        }
+                        treeData.push(obj);
+                    }
+                    var xtree1 = new layuiXtree({
+                        elem: "xtree1",
+                        form: form,
+                        isopen: false,  //加载完毕后的展开状态，默认值：true
+                        ckall: true,   //启用全选功能，默认值：false
+                        data: treeData
+                    });
+                    //权限保存
+                    $("#saveBtn").click(function () {
+                        $.ajax({
+                            url: "/Role/SaveRolePermission",
+                            type: "post",
+                            dataType: "json",
+                            data: { RoleId: $("#RoleId").val(), PermissionName: xtree1.GetChecked().map(o=>o.value) },
+                            error: function () {
+
+                            },
+                            success: function (result) {
+                                layer.msg(result.Msg);
+                            }
+                        });
+                    });
+                }
+            });
+        });
+
+    });
+</script>

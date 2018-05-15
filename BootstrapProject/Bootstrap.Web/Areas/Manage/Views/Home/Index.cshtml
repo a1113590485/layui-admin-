@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "测试标题";
+    ViewBag.CurrentUser = ViewData["CurrentUser"];
+    Layout = "~/Areas/Manage/Views/Shared/_Layout.cshtml";
+}
+<div class="x-body layui-anim layui-anim-up">
+    <blockquote class="layui-elem-quote">
+        欢迎您：
+        <span class="x-red">@ViewBag.CurrentUser.UserName</span>！当前时间:@DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")
+    </blockquote>
+
+</div>

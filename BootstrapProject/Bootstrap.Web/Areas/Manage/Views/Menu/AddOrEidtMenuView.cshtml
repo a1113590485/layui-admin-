@@ -1,0 +1,93 @@
+﻿@model Bootstrap.Web.Areas.Manage.Views.Menu.Dto.AddOrEditMenuModels
+@{
+    Layout = "~/Areas/Manage/Views/Shared/_PartialViewLayout.cshtml";
+}
+
+<div class="x-body layui-anim" id="MenuFormDiv">
+    <form class="layui-form" style="padding:20px" id="RoleForm">
+        <div class="layui-form-item">
+            <label for="L_menuName" class="layui-form-label">
+                <span class="x-red">*</span>菜单名称
+            </label>
+            <div class="layui-input-block">
+                <input hidden="hidden" name="id" id="L_id"  value="@Model.MenuInfo.Id"/>
+                <input type="text" id="L_menuName" name="menuName" required=""
+                       autocomplete="off" class="layui-input" value="@Model.MenuInfo.MenuName" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="L_shortName" class="layui-form-label">
+                <span class="x-red">*</span>菜单简称
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="L_shortName" name="shortName" required=""
+                       autocomplete="off" class="layui-input" placeholder="唯一标示，一般为小写英文" value="@Model.MenuInfo.ShortName" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="L_url" class="layui-form-label">
+                <span class="x-red">*</span>跳转Url
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="L_url" name="url" required=""
+                       autocomplete="off" class="layui-input" value="@Model.MenuInfo.Url" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="L_parentMenuId" class="layui-form-label">
+                <span class="x-red">*</span>父级菜单
+            </label>
+            <div class="layui-input-block">
+                <select id="L_parentMenuId" name="parentMenuId">
+                    <option value="">请选择父级菜单</option>
+                    @foreach (var item in Model.ParentMenuList)
+                    {
+                        if (item.Id == Model.MenuInfo.ParentMenuId)
+                        {
+                            <option value="@item.Id" selected="selected">@item.MenuName</option>
+                        }
+                        else
+                        {
+                            <option value="@item.Id">@item.MenuName</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+            </label>
+            <button class="layui-btn" lay-filter="save" id="saveBtn" onclick="return false">
+                保存
+            </button>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    (function () {
+        $(function () {
+            var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+
+            $("#saveBtn").click(function () {
+                var data = { Id: $("#L_id").val(), MenuName: $("#L_menuName").val(), ShortName: $("#L_shortName").val(), Url: $("#L_url").val(), ParentMenuId: $("#L_parentMenuId").val() };
+                $.ajax({
+                    url:"/Menu/AddOrEidtMenu",
+                    data: data,
+                    type: "post",
+                    dataType: "json",
+                    success: function (result) {
+                        console.log(result);
+                        layer.msg(result.Msg);
+                        if (result.Success) {
+                            parent.layer.close(index);
+                        }
+                    },
+                    error: function (err) {
+                        layer.msg("异常!!!");
+                    }
+                });
+            });
+        });
+    })();
+</script>

@@ -1,0 +1,62 @@
+﻿@model Bootstrap.Entity.Models.System.Role
+@{
+    Layout = "~/Areas/Manage/Views/Shared/_PartialViewLayout.cshtml";
+}
+
+<div class="x-body layui-anim" id="RoleFormDiv">
+    <form class="layui-form" style="padding:20px" id="RoleForm">
+        <div class="layui-form-item">
+            <label for="L_rolename" class="layui-form-label">
+                <span class="x-red">*</span>角色名
+            </label>
+            <div class="layui-input-inline">
+                <input hidden="hidden" name="id" id="L_id"  value="@Model.Id"/>
+                <input type="text" id="L_rolename" name="rolename" required=""
+                       autocomplete="off" class="layui-input" value="@Model.RoleName" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="L_roledesc" class="layui-form-label">
+                <span class="x-red">*</span>角色描述
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="L_roledesc" name="roledesc" required=""
+                       autocomplete="off" class="layui-input" value="@Model.RoleDesc" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+            </label>
+            <button class="layui-btn" lay-filter="save" id="saveBtn" onclick="return false">
+                增加
+            </button>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    (function () {
+        $(function () {
+            var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+            
+            $("#saveBtn").click(function () {
+                var data = { Id: $("#L_id").val(), RoleName: $("#L_rolename").val(), RoleDesc: $("#L_roledesc").val() };
+                $.ajax({
+                    url: "../../../Manage/Role/AddOrEditRole",
+                    data: data,
+                    type: "post",
+                    dataType: "json",
+                    success: function (result) {
+                        layer.msg(result.Msg);
+                        if (result.Success) {
+                            parent.layer.close(index);
+                        }
+                    },
+                    error: function (err) {
+                        layer.msg("异常!!!");
+                    }
+                });
+            });
+        });
+    })();
+</script>

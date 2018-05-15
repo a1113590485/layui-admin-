@@ -1,0 +1,204 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Manage/Views/Shared/_Layout.cshtml";
+}
+<div class="layui-row layui-col-space15">
+    <div id="Content" style="padding: 20px;">
+        @*左侧菜单栏*@
+        
+        <div class="layui-col-md3" style="padding-right:10px;">
+            <fieldset class="layui-elem-field site-demo-button" style="padding: 30px;">
+                <legend>菜单列表</legend>
+                <div>
+                    <div id="Left_MenuList"></div>
+                </div>
+            </fieldset>
+        </div>
+        @*右侧详情页*@
+        <div class="layui-col-md8">
+            <fieldset class="layui-elem-field site-demo-button" style="padding: 30px;">
+                <legend>菜单详情</legend>
+                <div id="Right_MenuInfo">
+                    <form id="AddOrMenuForm">
+                        <div class="layui-row" style="margin:10px;">
+                            <div class="layui-col-md2">
+                                Id:
+                            </div>
+                            <div class="layui-col-md10">
+                                <b id="id"></b>
+                            </div>
+                        </div>
+                        <div class="layui-row" style="margin:10px;">
+                            <div class="layui-col-md2">
+                                菜单名称:
+                            </div>
+                            <div class="layui-col-md10">
+                                <b id="menuName"></b>
+                            </div>
+                        </div>
+                        <div class="layui-row" style="margin:10px;">
+                            <div class="layui-col-md2">
+                                菜单简称:
+                            </div>
+                            <div class="layui-col-md10">
+                                <b id="shortName"></b>
+                            </div>
+                        </div>
+                        <div class="layui-row" style="margin:10px;">
+                            <div class="layui-col-md2">
+                                跳转链接:
+                            </div>
+                            <div class="layui-col-md10">
+                                <b id="url"></b>
+                            </div>
+                        </div>
+                    </form>
+                    <br />
+                    <div class="layui-row" style="margin:10px;">
+                        <div class="layui-col-md12">
+                            <button class="layui-btn layui-btn-sm" id="addMenuBtn"><i class="layui-icon">&#xe61f;</i>新增</button>
+                            <button class="layui-btn layui-btn-sm" id="editMenuBtn"><i class="layui-icon">&#xe6b2;</i>编辑</button>
+                            <button class="layui-btn layui-btn-sm layui-btn-danger" id="deleteMenuBtn"><i class="layui-icon">&#xe640;</i>删除</button>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+
+</script>
+
+
+<script>
+    (function () {
+        $(function () {
+            layui.use('tree', function () {
+                function createTree() {
+                    $.ajax({
+                        url: "/Menu/GetMenuTree",
+                        type: "post",
+                        success: function (result) {
+                            //清空树
+                            $("#Left_MenuList li").remove();
+                            //获取树形结构数据函数
+                            var treeData = [];
+                            for (var i = 0; i < result.length; i++) {
+                                var obj = {
+                                    id: "",
+                                    name: "",
+                                    url: "",
+                                    parentMenuId: "",
+                                    spread:true,
+                                    children: []
+                                }
+                                obj.id = result[i].Id;
+                                obj.name = result[i].MenuName;
+                                obj.shortName = result[i].ShortName;
+                                obj.url = result[i].Url;
+                                obj.parentMenuId = result[i].ParentMenuId;
+                                for (var j = 0; j < result[i].ChildMenuList.length; j++) {
+                                    obj.children.push({
+                                        id: result[i].ChildMenuList[j].Id,
+                                        name: result[i].ChildMenuList[j].MenuName,
+                                        url: result[i].ChildMenuList[j].Url,
+                                        spread: true,
+                                        shortName:result[i].ChildMenuList[j].ShortName,
+                                        parentMenuId: result[i].ChildMenuList[j].ParentMenuId,
+                                    });
+                                }
+                                treeData.push(obj);
+                            }
+                            //树点击事件
+                            layui.tree({
+                                elem: '#Left_MenuList', //传入元素选择器
+                                nodes: treeData,
+                                skin: 'shihuang',
+                                click: function (node) {
+                                    //先清空数据 
+
+                                    $("#id").text("");
+                                    $("#url").text("");
+                                    $("#menuName").text("");
+                                    $("#shortName").text("");
+
+                                    $("#id").text(node.id);
+                                    $("#url").text(node.url);
+                                    $("#menuName").text(node.name);
+                                    $("#shortName").text(node.shortName);
+                                }
+                            });
+                        }
+                    });
+                }
+                createTree();
+                //新增菜单
+                $("#addMenuBtn").click(function () {
+                    //打开新窗口
+                    layer.open({
+                        title: "新增菜单",
+                        type: 2,
+                        shadeClose: true,
+                        closeBtn: 1,
+                        maxmin: true,
+                        area: ['600px', '500px'],
+                        shade: 0.3,
+                        content: "/Menu/AddOrEidtMenuView",
+                        end: function () {
+                            createTree();
+                        }
+                    });
+                });
+                //编辑菜单
+                $("#editMenuBtn").click(function () {
+                    var id = $("#AddOrMenuForm #id").text();
+                    if(id==null||id==""){
+                        layer.msg("尚未选择菜单");
+                        return;
+                    }
+                    //打开新窗口
+                    layer.open({
+                        title: "新增菜单",
+                        type: 2,
+                        shadeClose: true,
+                        closeBtn: 1,
+                        maxmin: true,
+                        area: ['600px', '500px'],
+                        shade: 0.3,
+                        content: "/Menu/AddOrEidtMenuView?Id=" +id,
+                        end: function () {
+                            createTree()
+                        }
+                    });
+                });
+                //删除菜单
+                $("#deleteMenuBtn").click(function () {
+                    var id = $("#AddOrMenuForm #id").text();
+                    if (id == null || id == "") {
+                        layer.msg("尚未选择菜单");
+                        return;
+                    }
+                    layer.confirm('确定要删除此菜单吗',
+                    function () {
+                        $.ajax({
+                            url: "../Menu/DeleteMenu?Id="+id,
+                            type: "post",
+                            success: function (result) {
+                                layer.msg(result.Msg);
+                                createTree();
+                            }
+                        });
+
+                    });
+                });
+            });
+
+        });
+    })();
+</script>

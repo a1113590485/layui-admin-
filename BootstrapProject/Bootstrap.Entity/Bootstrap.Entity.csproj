@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D50AA9E0-610B-41FC-8590-05C2CC86E798}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bootstrap.Entity</RootNamespace>
+    <AssemblyName>Bootstrap.Entity</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.2.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.2.2\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.Entity.Design" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Base\CommonMethods.cs" />
+    <Compile Include="Base\ValidateLogin.cs" />
+    <Compile Include="Base\BaseController.cs" />
+    <Compile Include="Base\EntityDto.cs" />
+    <Compile Include="Migrations\201805110842362_init.cs" />
+    <Compile Include="Migrations\201805110842362_init.Designer.cs">
+      <DependentUpon>201805110842362_init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805120141344_remove_menutable.cs" />
+    <Compile Include="Migrations\201805120141344_remove_menutable.Designer.cs">
+      <DependentUpon>201805120141344_remove_menutable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805120310384_reloadtable.cs" />
+    <Compile Include="Migrations\201805120310384_reloadtable.Designer.cs">
+      <DependentUpon>201805120310384_reloadtable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805140341141_update_rolePermissiontable.cs" />
+    <Compile Include="Migrations\201805140341141_update_rolePermissiontable.Designer.cs">
+      <DependentUpon>201805140341141_update_rolePermissiontable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805140552306_update_usertable.cs" />
+    <Compile Include="Migrations\201805140552306_update_usertable.Designer.cs">
+      <DependentUpon>201805140552306_update_usertable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805140640457_update_userPermissiontable.cs" />
+    <Compile Include="Migrations\201805140640457_update_userPermissiontable.Designer.cs">
+      <DependentUpon>201805140640457_update_userPermissiontable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\System\NavigationMenu.cs" />
+    <Compile Include="Models\System\Permission.cs" />
+    <Compile Include="Models\System\Role.cs" />
+    <Compile Include="Models\System\RolePermissionRelation.cs" />
+    <Compile Include="Models\System\User.cs" />
+    <Compile Include="Models\System\UserPermissionRelation.cs" />
+    <Compile Include="Models\System\UserRoleRelation.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\BaseRepository.cs" />
+    <Compile Include="Repository\CommonModel.cs" />
+    <Compile Include="Repository\EntityDBContext.cs" />
+    <Compile Include="Repository\IRepository.cs" />
+    <Compile Include="Repository\ModelBase.cs" />
+    <Compile Include="Repository\SqlRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\Other\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201805110842362_init.resx">
+      <DependentUpon>201805110842362_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805120141344_remove_menutable.resx">
+      <DependentUpon>201805120141344_remove_menutable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805120310384_reloadtable.resx">
+      <DependentUpon>201805120310384_reloadtable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805140341141_update_rolePermissiontable.resx">
+      <DependentUpon>201805140341141_update_rolePermissiontable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805140552306_update_usertable.resx">
+      <DependentUpon>201805140552306_update_usertable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805140640457_update_userPermissiontable.resx">
+      <DependentUpon>201805140640457_update_userPermissiontable.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

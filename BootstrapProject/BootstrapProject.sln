@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{D4A28977-FE79-46A3-9407-F1D2A17BACC3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bootstrap.Web", "Bootstrap.Web\Bootstrap.Web.csproj", "{03FCA909-A75A-4919-BCAE-922B97317390}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bootstrap.Entity", "Bootstrap.Entity\Bootstrap.Entity.csproj", "{D50AA9E0-610B-41FC-8590-05C2CC86E798}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{03FCA909-A75A-4919-BCAE-922B97317390}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03FCA909-A75A-4919-BCAE-922B97317390}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03FCA909-A75A-4919-BCAE-922B97317390}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03FCA909-A75A-4919-BCAE-922B97317390}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D50AA9E0-610B-41FC-8590-05C2CC86E798}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D50AA9E0-610B-41FC-8590-05C2CC86E798}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D50AA9E0-610B-41FC-8590-05C2CC86E798}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D50AA9E0-610B-41FC-8590-05C2CC86E798}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{03FCA909-A75A-4919-BCAE-922B97317390} = {D4A28977-FE79-46A3-9407-F1D2A17BACC3}
+		{D50AA9E0-610B-41FC-8590-05C2CC86E798} = {D4A28977-FE79-46A3-9407-F1D2A17BACC3}
+	EndGlobalSection
+EndGlobal

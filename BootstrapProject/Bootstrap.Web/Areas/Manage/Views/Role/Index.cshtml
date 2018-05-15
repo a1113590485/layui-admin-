@@ -1,0 +1,143 @@
+﻿@{
+    ViewBag.Title = "权限管理";
+    Layout = "~/Areas/Manage/Views/Shared/_Layout.cshtml";
+}
+
+<xblock>
+    <button class="layui-btn layui-btn-danger" id="batchDelBtn"><i class="layui-icon">&#xe640;</i>批量删除</button>
+    <button class="layui-btn" id="addBtn"><i class="layui-icon">&#xe61f;</i>添加</button>
+</xblock>
+
+<table id="RoleList" lay-filter="role"></table>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看权限</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+
+</script>
+
+<script>
+    (function () {
+        $(function () {
+            layui.use('table', function () {
+                var table = layui.table;
+
+                table.render({
+                    id: "roleList",
+                    elem: '#RoleList',
+                    url: '/Role/GetRoleList',
+                    page: false,
+                    cellMinWidth: 80,
+                    fit: true,
+                    cols: [[
+                        { type: 'checkbox' },
+                        { field: "Id", title: "角色Id", width: 200 },
+                        { field: "RoleName", title: "角色名称", width: 200 },
+                        { field: "RoleDesc", title: "角色描述", width: 200 },
+                        {
+                            field: '', title: '操作', toolbar: '#barDemo'
+                        }
+                    ]]
+                });
+
+                //监听工具条
+                table.on('tool(role)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+                    var data = obj.data; //获得当前行数据
+                    var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+                    var tr = obj.tr; //获得当前行 tr 的DOM对象
+                    if (layEvent === 'detail') { //查看
+                        var detailDiv = layer.open({
+                            title: "权限列表",
+                            type: 2,
+                            shadeClose: true,
+                            closeBtn: 1,
+                            maxmin: true,
+                            area: ['800px', '800px'],
+                            shade: 0.3,
+                            content: "/Role/ChangePermissionView?id=" + data.Id,
+                            end: function () {
+                                table.reload("roleList");
+                            }
+                        });
+                    } else if (layEvent === 'del') { //删除
+                        layer.confirm('确定要删除此行吗', { shadeClose: true, }, function (index) {
+                            //向服务端发送删除指令
+                            $.ajax({
+                                url: "/Role/DeleteRole?Id=" + data.Id,
+                                type: "post",
+                                success: function (result) {
+                                    layer.msg(result.Msg);
+                                    if (result.Success) {
+                                        obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                                        layer.close(index);
+                                    }
+                                }
+                            });
+                        });
+                    } else if (layEvent === 'edit') { //编辑
+                        var roleFormDiv = layer.open({
+                            title: "添加角色",
+                            type: 2,
+                            shadeClose: true,
+                            closeBtn: 1,
+                            maxmin: true,
+                            area: ['400px', '300px'],
+                            shade: 0.3,
+                            content: "/Role/AddOrEidtRoleView?id=" + data.Id,
+                            end: function () {
+                                table.reload("roleList");
+                            }
+                        });
+                    }
+                });
+
+                //打开添加窗口
+                $("#addBtn").click(function () {
+                    var roleFormDiv = layer.open({
+                        title: "添加角色",
+                        type: 2,
+                        shadeClose: true,
+                        closeBtn: 1,
+                        maxmin: true,
+                        area: ['400px', '300px'],
+                        shade: 0.3,
+                        content: "/Role/AddOrEidtRoleView",
+                        end: function () {
+                            table.reload("roleList");
+                        }
+                    });
+                });
+                $("#batchDelBtn").click(function () {
+                    //批量删除
+                    var record = table.checkStatus('roleList').data;
+                    if (record.length == 0) {
+                        layer.alert('请勾选要删除的列', {
+                            icon: 5,
+                            shadeClose: true,
+                            title: "友情提示",
+                            skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+                        })
+                        return;
+                    }
+                    var data = record.map(o=>o.Id);
+                    var ids = data.join(",");
+                    layer.confirm('确定要删除选中的行吗？', function () {
+                        $.ajax({
+                            url: "/Role/BatchDeleteRole?Ids=" + ids,
+                            type: "post",
+                            success: function (result) {
+                                layer.msg(result.Msg);
+                                if (result.Success) {
+                                    table.reload("roleList");
+                                }
+                            }
+                        });
+                    });
+                });
+
+            });
+
+        });
+    })();
+</script>
