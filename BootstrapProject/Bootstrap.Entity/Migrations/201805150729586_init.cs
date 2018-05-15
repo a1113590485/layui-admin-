@@ -12,11 +12,9 @@ namespace Bootstrap.Entity.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
+                        ShortName = c.String(),
                         MenuName = c.String(),
-                        Icon = c.String(),
-                        Sort = c.Int(nullable: false),
                         Url = c.String(),
-                        IsActive = c.Boolean(nullable: false),
                         ParentMenuId = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
@@ -29,9 +27,12 @@ namespace Bootstrap.Entity.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         ModuleName = c.String(),
-                        Guid = c.String(),
+                        ShortName = c.String(),
+                        ParentPermissionId = c.Int(),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Permissions", t => t.ParentPermissionId)
+                .Index(t => t.ParentPermissionId);
             
             CreateTable(
                 "dbo.RolePermissionRelations",
@@ -39,7 +40,7 @@ namespace Bootstrap.Entity.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         RoleId = c.Int(nullable: false),
-                        PermissionId = c.Int(nullable: false),
+                        PermissionName = c.String(),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -59,7 +60,7 @@ namespace Bootstrap.Entity.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         UserId = c.Int(nullable: false),
-                        PermissionId = c.Int(nullable: false),
+                        PermissionName = c.String(),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -78,10 +79,12 @@ namespace Bootstrap.Entity.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        UserName = c.String(maxLength: 8),
+                        UserName = c.String(maxLength: 12),
                         PassWord = c.String(),
                         NickName = c.String(),
                         Sex = c.Int(nullable: false),
+                        UserStatus = c.Int(nullable: false),
+                        PhoneNumber = c.String(),
                         CreationTime = c.DateTime(nullable: false),
                         LastLoginTime = c.DateTime(),
                     })
@@ -91,7 +94,9 @@ namespace Bootstrap.Entity.Migrations
         
         public override void Down()
         {
+            DropForeignKey("dbo.Permissions", "ParentPermissionId", "dbo.Permissions");
             DropForeignKey("dbo.NavigationMenus", "ParentMenuId", "dbo.NavigationMenus");
+            DropIndex("dbo.Permissions", new[] { "ParentPermissionId" });
             DropIndex("dbo.NavigationMenus", new[] { "ParentMenuId" });
             DropTable("dbo.Users");
             DropTable("dbo.UserRoleRelations");

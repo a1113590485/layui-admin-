@@ -69,29 +69,9 @@
     <Compile Include="Base\ValidateLogin.cs" />
     <Compile Include="Base\BaseController.cs" />
     <Compile Include="Base\EntityDto.cs" />
-    <Compile Include="Migrations\201805110842362_init.cs" />
-    <Compile Include="Migrations\201805110842362_init.Designer.cs">
-      <DependentUpon>201805110842362_init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805120141344_remove_menutable.cs" />
-    <Compile Include="Migrations\201805120141344_remove_menutable.Designer.cs">
-      <DependentUpon>201805120141344_remove_menutable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805120310384_reloadtable.cs" />
-    <Compile Include="Migrations\201805120310384_reloadtable.Designer.cs">
-      <DependentUpon>201805120310384_reloadtable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805140341141_update_rolePermissiontable.cs" />
-    <Compile Include="Migrations\201805140341141_update_rolePermissiontable.Designer.cs">
-      <DependentUpon>201805140341141_update_rolePermissiontable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805140552306_update_usertable.cs" />
-    <Compile Include="Migrations\201805140552306_update_usertable.Designer.cs">
-      <DependentUpon>201805140552306_update_usertable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805140640457_update_userPermissiontable.cs" />
-    <Compile Include="Migrations\201805140640457_update_userPermissiontable.Designer.cs">
-      <DependentUpon>201805140640457_update_userPermissiontable.cs</DependentUpon>
+    <Compile Include="Migrations\201805150729586_init.cs" />
+    <Compile Include="Migrations\201805150729586_init.Designer.cs">
+      <DependentUpon>201805150729586_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\System\NavigationMenu.cs" />
@@ -121,23 +101,8 @@
     <Folder Include="Models\Other\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201805110842362_init.resx">
-      <DependentUpon>201805110842362_init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805120141344_remove_menutable.resx">
-      <DependentUpon>201805120141344_remove_menutable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805120310384_reloadtable.resx">
-      <DependentUpon>201805120310384_reloadtable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805140341141_update_rolePermissiontable.resx">
-      <DependentUpon>201805140341141_update_rolePermissiontable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805140552306_update_usertable.resx">
-      <DependentUpon>201805140552306_update_usertable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805140640457_update_userPermissiontable.resx">
-      <DependentUpon>201805140640457_update_userPermissiontable.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201805150729586_init.resx">
+      <DependentUpon>201805150729586_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

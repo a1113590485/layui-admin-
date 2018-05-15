@@ -28,6 +28,10 @@
             <input value="登录" lay-submit lay-filter="login" style="width:100%;" type="submit">
             <hr class="hr20">
         </form>
+        <div class="layui-form-item" style="margin-bottom: 20px;">
+            <a href="/Login/RegisterView" class="layadmin-user-jump-change layadmin-link" style="margin-top: 7px;cursor:pointer;float:left">注册账号</a>
+            <a href="/Login/RegisterView" class="layadmin-user-jump-change layadmin-link" style="margin-top: 7px;cursor:pointer;float:right">忘记密码？</a>
+        </div>
     </div>
 
     <script>
@@ -44,7 +48,7 @@
                         success: function (result) {
                             layer.close(loadIndex);
                             if (result.Success) {
-                                layer.msg("登陆成功", { icon: 1, shade: [0.2, 'black'] });
+                                layer.msg(result.Msg, { icon: 1, shade: [0.2, 'black'] });
                                 window.location.href = "../../Manage/Home/Index";
                             } else {
                                 layer.msg(result.Msg, { icon: 5, shade: [0.2, 'black'] });

@@ -30,6 +30,42 @@ namespace Bootstrap.Web.Areas.Manage.Controllers
         {
             return PartialView(id);
         }
+        [Description("新增/编辑用户页面")]
+        public ActionResult AddOrEditUserView(int? id)
+        {
+            var user = new User();
+            List<int> userRoles = null;
+            if (id.HasValue)
+            {
+                user = _commonModel.UserRepository.Get(id.Value);
+                userRoles = _commonModel.UserRoleRelationRepository.GetAll().Where(o => o.UserId == user.Id).Select(o=>o.RoleId).ToList();
+            }
+            //性别下拉框赋值
+            var userGenderList = new List<SelectListItem>();
+            foreach (var item in Enum.GetValues(typeof(User.Gender)))
+            {
+                var listitem = new SelectListItem
+                {
+                    Value = item.ToString(),
+                    Text = Enum.GetName(typeof(User.Gender), item),
+                    Selected = (int)user.Sex == (int)item ? true : false
+                };
+                userGenderList.Add(listitem);
+            }
+            var roleList = _commonModel.RoleRepository.GetAllAsNoTracking().ToList();
+            //构建返回的model
+            var model = new AddOrEditUserModels()
+            {
+                Id = user.Id,
+                NickName = user.NickName,
+                UserName = user.UserName,
+                UserRoles = userRoles,
+                UserStatus = Enum.GetName(typeof(User.Status),user.UserStatus),
+                UserGenderList = userGenderList,
+                RoleList= roleList
+            };
+            return PartialView(model);
+        }
         /// <summary>
         /// 获取用户列表
         /// </summary>
@@ -42,16 +78,28 @@ namespace Bootstrap.Web.Areas.Manage.Controllers
             //调用分页数据
             var userList = _commonModel.UserRepository
                 .GetItemsByPage(limit, page,u=>u.CreationTime).ToList();
-            var userListOutput = userList.Select(u=>new UserListOutput
+            //获取所有用户角色关系
+            var allUserRole = _commonModel.UserRoleRelationRepository.GetAllAsNoTracking();
+            //获取所有角色
+            var allRole = _commonModel.RoleRepository.GetAllAsNoTracking();
+            var userListOutput = userList.Select(u =>
             {
-                Id = u.Id,
-                CreationTime = u.CreationTime,
-                LastLoginTime = u.LastLoginTime,
-                NickName = u.NickName,
-                Sex = Enum.GetName(typeof(User.Gender), u.Sex),
-                UserName = u.UserName,
-                UserStatus = Enum.GetName(typeof(User.Status), u.UserStatus)
+                var dto = new UserListOutput
+                {
+                    Id = u.Id,
+                    CreationTime = u.CreationTime,
+                    LastLoginTime = u.LastLoginTime,
+                    NickName = u.NickName,
+                    Sex = Enum.GetName(typeof(User.Gender), u.Sex),
+                    UserName = u.UserName,
+                    UserStatus = Enum.GetName(typeof(User.Status), u.UserStatus),
+                };
+                var userRoleList = allUserRole.Where(o => o.UserId == dto.Id).Select(o => o.RoleId).ToList();
+                var roles = allRole.Where(o => userRoleList.Contains(o.Id)).Select(o=>o.RoleName).ToList();
+                dto.UserRoles = string.Join(",", roles);
+                return dto;
             }).ToList();
+
             var output = new PublicTableOutput<List<UserListOutput>>
             {
                 code = 0,
@@ -80,6 +128,40 @@ namespace Bootstrap.Web.Areas.Manage.Controllers
                 return Json(new PublicOutput { Success = false, Msg = "用户权限保存失败" });
             }
         }
-        
+        [Description("保存用户详情")]
+        public async Task<JsonResult> SaveUserInfo(SaveUserInfoInput input)
+        {
+            try
+            {
+                var user = _commonModel.UserRepository.Get(input.Id);
+                user.NickName = input.NickName;
+                user.Sex = input.Sex;
+                await _commonModel.UserRepository.UpdateAsync(user);
+
+                //删除原先的用户-角色关系数据
+                await _commonModel.UserRoleRelationRepository.DeleteAsync(o => o.UserId == input.Id);
+                //添加关系数据
+                foreach (var item in input.UserRoles)
+                {
+                    await _commonModel.UserRoleRelationRepository.InsertAsync(new UserRoleRelation { RoleId = item, UserId = input.Id });
+                }
+                //删除原先的用户-权限关系数据
+                await _commonModel.UserPermissionRelationRepository.DeleteAsync(o => o.UserId == input.Id);
+                //添加关系数据
+                //1.获取所有权限-去重复
+                var permissionList = _commonModel.RolePermissionRelationRepository.GetAllAsNoTracking().Where(o => input.UserRoles.Contains(o.RoleId)).Distinct().Select(o => o.PermissionName).ToList();
+                //2.建立联系
+                foreach (var item in permissionList)
+                {
+                    await _commonModel.UserPermissionRelationRepository.InsertAsync(new UserPermissionRelation { UserId = input.Id, PermissionName = item });
+                }
+
+                return Json(new PublicOutput { Success = true, Msg = "用户信息保存成功" });
+            }
+            catch (Exception)
+            {
+                return Json(new PublicOutput { Success = false, Msg = "用户信息保存失败" });
+            }
+        }
     }
 }

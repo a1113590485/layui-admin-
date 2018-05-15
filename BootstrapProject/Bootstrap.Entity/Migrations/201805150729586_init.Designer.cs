@@ -7,13 +7,13 @@ namespace Bootstrap.Entity.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class update_rolePermissiontable : IMigrationMetadata
+    public sealed partial class init : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(update_rolePermissiontable));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(init));
         
         string IMigrationMetadata.Id
         {
-            get { return "201805140341141_update_rolePermissiontable"; }
+            get { return "201805150729586_init"; }
         }
         
         string IMigrationMetadata.Source

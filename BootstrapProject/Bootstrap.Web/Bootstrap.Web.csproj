@@ -264,6 +264,7 @@
     <Compile Include="Areas\Manage\PublicDto\PublicTableOutput.cs" />
     <Compile Include="Areas\Manage\ManageAreaRegistration.cs" />
     <Compile Include="Areas\Manage\Views\Login\Dto\LoginInput.cs" />
+    <Compile Include="Areas\Manage\Views\Login\Dto\RegisterInput.cs" />
     <Compile Include="Areas\Manage\Views\Menu\Dto\AddOrEditMenuInput.cs" />
     <Compile Include="Areas\Manage\Views\Menu\Dto\AddOrEditMenuModels.cs" />
     <Compile Include="Areas\Manage\Views\Menu\Dto\MenuTreeOutput.cs" />
@@ -274,7 +275,12 @@
     <Compile Include="Areas\Manage\Views\Role\Dto\PermissionListOutput.cs" />
     <Compile Include="Areas\Manage\Views\Role\Dto\RoleListOutput.cs" />
     <Compile Include="Areas\Manage\Views\Role\Dto\SaveRolePermissionInput.cs" />
+    <Compile Include="Areas\Manage\Views\User\Dto\AddOrEditUserModels.cs" />
+    <Compile Include="Areas\Manage\Views\User\Dto\SaveUserInfoInput.cs" />
     <Compile Include="Areas\Manage\Views\User\Dto\SaveUserPermissionInput.cs" />
+    <Compile Include="Areas\Manage\Views\User\Dto\SaveUserRoleInput.cs" />
+    <Compile Include="Areas\Manage\Views\User\Dto\UserAndRole.cs" />
+    <Compile Include="Areas\Manage\Views\User\Dto\UserAndRoleRelation.cs" />
     <Compile Include="Areas\Manage\Views\User\Dto\UserListOutput.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -434,6 +440,8 @@
     <Content Include="Areas\Manage\Views\User\Index.cshtml" />
     <Content Include="Areas\Manage\Views\Error\Index.cshtml" />
     <Content Include="Areas\Manage\Views\User\ChangePermissionView.cshtml" />
+    <Content Include="Areas\Manage\Views\User\AddOrEditUserView.cshtml" />
+    <Content Include="Areas\Manage\Views\Login\RegisterView.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

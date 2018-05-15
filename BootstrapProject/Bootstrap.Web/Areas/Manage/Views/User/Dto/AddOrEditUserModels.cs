@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Bootstrap.Web.Areas.Manage.Views.User.Dto
 {
     /// <summary>
-    /// 用户列表output
+    /// 添加/编辑用户视图模型
     /// </summary>
-    public class UserListOutput
+    public class AddOrEditUserModels
     {
         public int Id { get; set; }
         /// <summary>
@@ -20,24 +21,20 @@ namespace Bootstrap.Web.Areas.Manage.Views.User.Dto
         /// </summary>
         public string NickName { get; set; }
         /// <summary>
-        /// 性别
-        /// </summary>
-        public string Sex { get; set; }
-        /// <summary>
         /// 用户状态
         /// </summary>
-        public string UserStatus { get; set; }
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        public DateTime CreationTime { get; set; }
-        /// <summary>
-        /// 上一次登录时间
-        /// </summary>
-        public DateTime? LastLoginTime { get; set; }
+        public string UserStatus { get; set; }   
         /// <summary>
         /// 用户角色
         /// </summary>
-        public string UserRoles { get; set; }
+        public List<int> UserRoles { get; set; }
+        /// <summary>
+        /// 用户性别列表--下拉框
+        /// </summary>
+        public List<SelectListItem> UserGenderList { get; set; }
+        /// <summary>
+        /// 角色列表--下拉框
+        /// </summary>
+        public List<Entity.Models.System.Role> RoleList { get; set; }
     }
 }

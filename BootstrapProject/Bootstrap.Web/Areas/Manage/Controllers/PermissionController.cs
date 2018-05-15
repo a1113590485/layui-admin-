@@ -20,7 +20,7 @@ namespace Bootstrap.Web.Areas.Manage.Controllers
         public JsonResult GetPermissionListByRole(int roleId)
         {
             //获取角色权限名称列表
-            var rolePermissionList = _commonModel.RolePermissionRelationRepository.GetAll().Where(o => o.RoleId == roleId).Select(o => o.PermissionName).ToList();
+            var rolePermissionList = _commonModel.RolePermissionRelationRepository.GetAll().Where(o => o.RoleId == roleId).ToList().Select(o => o.PermissionName);
 
             //控制器列表
             List<ControllersOutput> controls = new List<ControllersOutput>();

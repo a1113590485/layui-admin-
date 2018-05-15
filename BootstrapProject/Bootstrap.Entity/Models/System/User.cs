@@ -16,7 +16,7 @@ namespace Bootstrap.Entity.Models.System
         //用户名最小长度
         public const int MinUserNameLength = 3;
         //用户名最大长度
-        public const int MaxUserNameLength = 8;
+        public const int MaxUserNameLength = 12;
         public User()
         {
             CreationTime = DateTime.Now;
@@ -25,8 +25,8 @@ namespace Bootstrap.Entity.Models.System
         /// <summary>
         /// 用户名
         /// </summary>
-        [MaxLength(MaxUserNameLength)]
-        [MinLength(MinUserNameLength)]
+        [MinLength(MinUserNameLength, ErrorMessage = "用户名最小长度为3位")]
+        [MaxLength(MaxUserNameLength, ErrorMessage = "用户名最大长度为12位")]
         public virtual string UserName { get; set; }
         /// <summary>
         /// 密码
@@ -44,6 +44,10 @@ namespace Bootstrap.Entity.Models.System
         /// 用户状态
         /// </summary>
         public virtual Status UserStatus { get; set; }
+        /// <summary>
+        /// 手机号码
+        /// </summary>
+        public virtual string PhoneNumber { get; set; }
         /// <summary>
         /// 创建时间
         /// </summary>

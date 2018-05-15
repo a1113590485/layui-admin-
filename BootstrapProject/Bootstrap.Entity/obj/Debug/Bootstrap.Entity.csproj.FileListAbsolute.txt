@@ -16,11 +16,6 @@ D:\Test\BootstrapProject\Bootstrap.Entity\bin\Debug\zh-Hans\EntityFramework.SqlS
 D:\Test\BootstrapProject\Bootstrap.Entity\bin\Debug\zh-Hans\System.Web.Mvc.resources.dll
 D:\Test\BootstrapProject\Bootstrap.Entity\obj\Debug\Bootstrap.Entity.dll
 D:\Test\BootstrapProject\Bootstrap.Entity\obj\Debug\Bootstrap.Entity.pdb
+D:\Test\BootstrapProject\Bootstrap.Entity\obj\Debug\Bootstrap.Entity.csprojResolveAssemblyReference.cache
 D:\Test\BootstrapProject\Bootstrap.Entity\obj\Debug\Bootstrap.Entity.Migrations.init.resources
 D:\Test\BootstrapProject\Bootstrap.Entity\obj\Debug\Bootstrap.Entity.csproj.GenerateResource.Cache
-D:\Test\BootstrapProject\Bootstrap.Entity\obj\Debug\Bootstrap.Entity.Migrations.remove_menutable.resources
-D:\Test\BootstrapProject\Bootstrap.Entity\obj\Debug\Bootstrap.Entity.Migrations.reloadtable.resources
-D:\Test\BootstrapProject\Bootstrap.Entity\obj\Debug\Bootstrap.Entity.csprojResolveAssemblyReference.cache
-D:\Test\BootstrapProject\Bootstrap.Entity\obj\Debug\Bootstrap.Entity.Migrations.update_rolePermissiontable.resources
-D:\Test\BootstrapProject\Bootstrap.Entity\obj\Debug\Bootstrap.Entity.Migrations.update_usertable.resources
-D:\Test\BootstrapProject\Bootstrap.Entity\obj\Debug\Bootstrap.Entity.Migrations.update_userPermissiontable.resources

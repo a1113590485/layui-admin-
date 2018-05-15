@@ -1,0 +1,111 @@
+﻿@model Bootstrap.Web.Areas.Manage.Views.User.Dto.AddOrEditUserModels
+
+@{
+    Layout = "~/Areas/Manage/Views/Shared/_PartialViewLayout.cshtml";
+}
+
+
+<div class="x-body layui-anim" id="UserFormDiv">
+    <form class="layui-form" style="padding:20px" id="UserForm">
+        <div class="layui-form-item">
+            <label for="L_rolename" class="layui-form-label">
+                <span class="x-red">*</span>用户名
+            </label>
+            <div class="layui-input-block">
+                <input hidden="hidden" name="id" id="L_id" value="@Model.Id" />
+                <input type="text" id="L_username" name="username" required="" disabled="disabled"
+                       autocomplete="off" class="layui-input" value="@Model.UserName" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="L_userStatus" class="layui-form-label">
+                <span class="x-red">*</span>状态
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="L_userStatus" name="userStatus" required="" disabled="disabled"
+                       autocomplete="off" class="layui-input" value="@Model.UserStatus" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="L_nickname" class="layui-form-label">
+                <span class="x-red">*</span>昵称
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="L_nickname" name="nickname" required=""
+                       autocomplete="off" class="layui-input" value="@Model.NickName" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="L_sex" class="layui-form-label">
+                <span class="x-red">*</span>性别
+            </label>
+            <div class="layui-input-block">
+                <select name="sex" id="L_sex">
+                    @foreach (var item in Model.UserGenderList)
+                    {
+                        <option value="@item.Value">@item.Text</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="L_role" class="layui-form-label">
+                <span class="x-red">*</span>角色
+            </label>
+            <div class="layui-input-block" id="L_role">
+                @foreach (var item in Model.RoleList)
+                {
+                    if (Model.UserRoles.Contains(item.Id))
+                    {
+                        <input type="checkbox" value="@item.Id" name="role" lay-skin="primary" title="@item.RoleName" checked="">
+                    }
+                    else
+                    {
+                        <input type="checkbox" value="@item.Id" name="role" lay-skin="primary" title="@item.RoleName">
+                    }
+                }
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+            </label>
+            <button class="layui-btn" lay-filter="save" id="saveBtn" onclick="return false">
+                保存
+            </button>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    (function () {
+        $(function () {
+            var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+
+            $("#saveBtn").click(function () {
+                var checkedRoles = [];
+                //获取选中的角色
+                $("#L_role input:checkbox[name='role']:checked").each(function () { // 遍历name=role的多选框
+                    checkedRoles.push($(this).val());  // 每一个被选中项的值
+                });
+
+                var data = { Id: $("#L_id").val(), NickName: $("#L_nickname").val(), Sex: $("#L_sex").val(), UserRoles: checkedRoles };
+                console.log(data);
+                $.ajax({
+                    url: "../../../Manage/User/SaveUserInfo",
+                    data: data,
+                    type: "post",
+                    dataType: "json",
+                    success: function (result) {
+                        layer.msg(result.Msg);
+                        if (result.Success) {
+                            parent.layer.close(index);
+                        }
+                    },
+                    error: function (err) {
+                        layer.msg("异常!!!");
+                    }
+                });
+            });
+        });
+    })();
+</script>

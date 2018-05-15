@@ -20,10 +20,7 @@ namespace Bootstrap.Entity.Base
         {
             //菜单列表
             var query = _commonModel.NavigationMenuRepository.GetAllAsNoTracking().Where(o=>!o.ParentMenuId.HasValue).ToList();
-            //用户权限列表
-            var userPermissionList = _commonModel.UserPermissionRelationRepository.GetAllAsNoTracking().Where(o => o.UserId == CurrentUser.Id).ToList();
-
-            ViewData["_layoutPermissionList"] = userPermissionList.Select(o=>o.PermissionName).ToList();
+           
             ViewData["_layoutMenuList"] = query;
         }
 
@@ -38,11 +35,16 @@ namespace Bootstrap.Entity.Base
             {
                 try
                 {
-                    var currentUser = HttpContext.Session["CurrentUser"].ToString();
+                    var currentUser = HttpContext.Session["CurrentUser"];
                     if (currentUser == null) return new User();
-                    var userInfo = JsonConvert.DeserializeObject<User>(currentUser);
+                    var userInfo = JsonConvert.DeserializeObject<User>(currentUser.ToString());
                     if (userInfo != null)
                     {
+                        //用户权限列表
+                        var userPermissionList = _commonModel.UserPermissionRelationRepository.GetAllAsNoTracking().Where(o => o.UserId == userInfo.Id).ToList();
+
+                        ViewData["_layoutPermissionList"] = userPermissionList.Select(o => o.PermissionName).ToList();
+
                         return userInfo;
                     }
                     else
